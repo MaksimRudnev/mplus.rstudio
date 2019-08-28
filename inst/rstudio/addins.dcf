@@ -1,0 +1,9 @@
+Name: Run in Mplus
+Description: Run Mplus
+Binding: runMplusInput
+Interactive: false
+
+Name: Set Mplus path
+Description: Set path to Mplus executable command/file
+Binding: setMplusPath
+Interactive: true
