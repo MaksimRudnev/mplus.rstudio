@@ -31,7 +31,7 @@ runMplusInput <- function() {
         warning("Something went wrong, the output file is older than the input.")
       }
       } else {
-        error("Something went wrong, the output file was not created.")
+        warning("Something went wrong, the output file was not created.")
       }
 
     }
