@@ -24,11 +24,16 @@ runMplusInput <- function() {
     } else {
 
       output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
+      if(file.exists(output.file.path)) {
       if( file.mtime(output.file.path)>st ) {
         rstudioapi::navigateToFile(output.file.path)
       } else {
         warning("Something went wrong, the output file is older than the input.")
       }
+      } else {
+        error("Something went wrong, the output file was not created.")
+      }
+
     }
 }
 
@@ -39,4 +44,5 @@ runMplusInput <- function() {
 setMplusPath <- function(path) {
   path <- rstudioapi::showPrompt("Add a path", "Set path to Mplus executable command/file, for example, C://Program files/mplus.exe")
   options("mplus.path" = path)
+
 }
