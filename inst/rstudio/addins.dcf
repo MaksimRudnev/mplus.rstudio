@@ -7,3 +7,10 @@ Name: Set Mplus path
 Description: Set path to Mplus executable command/file
 Binding: setMplusPath
 Interactive: true
+
+Name: Create Mplus input
+Description: Create input template and save data for Mplus
+Binding: createMplusInput
+Interactive: true
+
+
