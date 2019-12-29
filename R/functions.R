@@ -81,10 +81,10 @@ mplus_skeleton <- function(d2, datafile = NULL) {
 
            ";\n",
            "\tmissing = .;", "\n",
-           "\tusevariables = ",
+           "\tusevariables = <ADD SEOM VARIABLES FROM THE LIST ABOVE>;",
            "\n\n\n\n",
            "ANALYSIS:\n",
-           "\ttype = twolevel random;\n",
+           "\ttype = <e.g. TWOLEVEL RANDOM>;\n",
            "\testimator = mlr;\n\n\n\n",
 
            "MODEL:\n\n\n\n",
