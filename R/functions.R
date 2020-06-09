@@ -32,16 +32,17 @@ runMplusInput <- function() {
     if(bash.response==127) {
       rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path using setMplusPath")
       setMplusPath()
-      runMplusInput()
+       #runMplusInput()
+
     } else {
 
       output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
       if(file.exists(output.file.path)) {
-      if( file.mtime(output.file.path)>st ) {
-        rstudioapi::navigateToFile(output.file.path)
-      } else {
-        warning("Something went wrong, the output file is older than the input.")
-      }
+        if( file.mtime(output.file.path)>st ) {
+          rstudioapi::navigateToFile(output.file.path)
+        } else {
+          warning("Something went wrong, the output file is older than the input.")
+        }
       } else {
         warning("Something went wrong, the output file was not created.")
       }
@@ -55,6 +56,7 @@ runMplusInput <- function() {
 #' @export
 setMplusPath <- function(path) {
   path <- rstudioapi::showPrompt("Add a path", "Set path to Mplus executable command/file, for example, C://Program files/mplus.exe")
+
   options("mplus.path" = path)
   rstudioapi::setPersistentValue("mplus.path", path)
 
@@ -62,14 +64,39 @@ setMplusPath <- function(path) {
 
 #' mplus skeleton
 #'
-#' @param d2 Data frame to extract variable names
+#' @param data Data frame to extract variable names
+#' @param datafile Name of the datafile to save
 #'
 #' @example cat(mplus_skeleton(cars), file = "mplus1.inp")
 #' @export
-mplus_skeleton <- function(d2, datafile = NULL) {
-  var.names <- paste(gsub("\\.", "_", abbreviate(names(d2), 8)), " ! ", names(d2), "\n\t\t", collapse = "")
-  if(sum(duplicated(gsub("\\.", "_", abbreviate(names(d2), 8))))>0) warning("Some abbreviated variable names are duplicated!!")
-  if(is.null(datafile)) datafile = 'mplus_temp.tab'
+mplus_skeleton <- function(data, datafile = 'mplus_temp.tab') {
+
+  vnames = gsub("\\.", "_", abbreviate(names(data), 8))
+
+
+
+
+comments <-  sapply(names(data), function(x) {
+    if(is.numeric(data[,x] ) ) {
+      return(x)
+    } else  if (is.character(data[,x]) | is.factor(data[,x]) ) {
+
+      a = as.data.frame(table(as.numeric(as.factor(data[,x])), data[,x], useNA="no"))
+      a = a[a$Freq!=0,]
+      a = paste(a[,1], "=", a[,2], collapse = " ")
+      return(paste(x, "LABS", a, collapse = " "))
+    } else {
+
+      warning("Can't recognize the class of variable", x)
+      return("check this variable")
+    }
+  })
+
+  var.names <- paste(vnames, " ! ", comments, "\n\t\t", collapse = "")
+
+    if(sum(duplicated(gsub("\\.", "_", abbreviate(names(data), 8))))>0) warning("Some abbreviated variable names are duplicated!!")
+  #if(is.null(datafile)) datafile = 'mplus_temp.tab'
+  #
   paste0(c("TITLE: New model;\n",
     "DATA:","\n",
            "\tfile = '", datafile, "';", "\n",
