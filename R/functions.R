@@ -2,37 +2,58 @@
 #'
 #' @export
 
-runMplusInput <- function() {
+runMplusInput <- function(x, as.job=F) {
+
   rstudioapi::documentSave()
   st <- Sys.time()
   path = rstudioapi::getActiveDocumentContext()
+  print(path)
   inp.file <- sub("^.*/", "", path$path)
+  print(path)
   folder <- substring(path$path, 1, attr(regexec("^.*/", path$path)[[1]],"match.length"))
   if(!grepl("\\.inp", substring(inp.file, regexec("\\..*$", inp.file)[[1]][1]), ignore.case = T) ) {
-    rstudioapi::showDialog("Warning", "The file isn't .inp, I will try to run it, but make sure it's an input Mplus file!")
+    rstudioapi::showDialog("Warning", "The file isn't .inp, I will try to run it anyways, but make sure it's an input Mplus file!")
     }
 
 
     mplus.path = if(is.null(options("mplus.path")[[1]])) {
-                  if(is.null(rstudioapi::getPersistentValue("mplus.path"))) {
-                    "mplus"
+                      if(is.null(rstudioapi::getPersistentValue("mplus.path"))) {
+                        "mplus"
+                      } else {
+                        rstudioapi::getPersistentValue("mplus.path")
+                      }
                   } else {
-                    rstudioapi::getPersistentValue("mplus.path")
+                    options("mplus.path")[[1]]
                   }
-    } else {
-      options("mplus.path")[[1]]
-    }
 
 
     oldwd<-getwd()
     setwd(folder)
-    bash.response = system(paste0(mplus.path, ' "', inp.file, '"'))
+
+    if(as.job) {
+      temp.file <- tempfile(fileext = ".R")
+      cat('bash.response <<- system("',
+           mplus.path, " '", inp.file, "' \")\n\n",
+          'if(bash.response==127) {',
+          'rstudioapi::showDialog("Warning", "Could not locate mplus program! Set the path using setMplusPath")',
+          '} else {
+          rstudioapi::navigateToFile("', paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out")), '")
+          }',
+          sep="",
+          file=temp.file)
+      rstudioapi::jobRunScript(temp.file,
+                               name = paste("Running",inp.file),
+                               workingDir = getwd())
+      bash.response = 0
+    } else {
+
+      bash.response = system(paste0(mplus.path, ' "', inp.file, '"'))
     #end.t <- Sys.time()
-    setwd(oldwd)
+}
     if(bash.response==127) {
       rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path using setMplusPath")
       setMplusPath()
-       #runMplusInput()
+      runMplusInput()
 
     } else {
 
@@ -48,6 +69,8 @@ runMplusInput <- function() {
       }
 
     }
+
+    setwd(oldwd)
 }
 
 
@@ -141,4 +164,12 @@ createMplusInput <- function() {
   mplusSKELETON <- mplus_skeleton(dat, paste0(filename, ".dat"))
   writeLines(mplusSKELETON, paste0(filename, ".inp"))
   rstudioapi::navigateToFile(paste0(filename, ".inp"))
+}
+
+
+#' run inp file in Mplus via plugin as a background job
+#'
+#' @export
+runMplusInputAsJob <- function(x) {
+  runMplusInput(x, as.job=T)
 }

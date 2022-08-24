@@ -3,6 +3,11 @@ Description: Run Mplus
 Binding: runMplusInput
 Interactive: false
 
+Name: Run in Mplus AS JOB
+Description: Run Mplus
+Binding: runMplusInputAsJob
+Interactive: false
+
 Name: Set Mplus path
 Description: Set path to Mplus executable command/file
 Binding: setMplusPath
