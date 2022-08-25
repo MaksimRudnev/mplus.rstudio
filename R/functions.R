@@ -7,9 +7,7 @@ runMplusInput <- function(x, as.job=F) {
   rstudioapi::documentSave()
   st <- Sys.time()
   path = rstudioapi::getActiveDocumentContext()
-  print(path)
   inp.file <- sub("^.*/", "", path$path)
-  print(path)
   folder <- substring(path$path, 1, attr(regexec("^.*/", path$path)[[1]],"match.length"))
   if(!grepl("\\.inp", substring(inp.file, regexec("\\..*$", inp.file)[[1]][1]), ignore.case = T) ) {
     rstudioapi::showDialog("Warning", "The file isn't .inp, I will try to run it anyways, but make sure it's an input Mplus file!")
@@ -41,6 +39,7 @@ runMplusInput <- function(x, as.job=F) {
           }',
           sep="",
           file=temp.file)
+
       rstudioapi::jobRunScript(temp.file,
                                name = paste("Running",inp.file),
                                workingDir = getwd())
