@@ -50,17 +50,17 @@ runMplusInput <- function(x, as.job=F) {
     #end.t <- Sys.time()
 }
     if(bash.response==127) {
-      rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path using setMplusPath")
+      rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path using setMplusPath and run again.")
       setMplusPath()
-      runMplusInput()
+      #runMplusInput()
 
     } else {
 
       output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
-      if(file.exists(output.file.path)) {
-        if( file.mtime(output.file.path)>st ) {
-          rstudioapi::navigateToFile(output.file.path)
-        } else {
+      if(file.exists(output.file.path) ) {
+        rstudioapi::navigateToFile(output.file.path)
+
+        if( file.mtime(output.file.path) < st & !as.job ) {
           warning("Something went wrong, the output file is older than the input.")
         }
       } else {
@@ -71,6 +71,16 @@ runMplusInput <- function(x, as.job=F) {
 
     setwd(oldwd)
 }
+
+
+
+#' run inp file in Mplus via plugin as a background job
+#'
+#' @export
+runMplusInputAsJob <- function(x) {
+  runMplusInput(x, as.job=T)
+}
+
 
 
 #' set Mplus path
@@ -89,7 +99,7 @@ setMplusPath <- function(path) {
 #' @param data Data frame to extract variable names
 #' @param datafile Name of the datafile to save
 #'
-#' @example cat(mplus_skeleton(cars), file = "mplus1.inp")
+#' @example \dontrun{cat(mplus_skeleton(cars), file = "mplus1.inp")}
 #' @export
 mplus_skeleton <- function(data, datafile = 'mplus_temp.tab') {
 
@@ -163,12 +173,4 @@ createMplusInput <- function() {
   mplusSKELETON <- mplus_skeleton(dat, paste0(filename, ".dat"))
   writeLines(mplusSKELETON, paste0(filename, ".inp"))
   rstudioapi::navigateToFile(paste0(filename, ".inp"))
-}
-
-
-#' run inp file in Mplus via plugin as a background job
-#'
-#' @export
-runMplusInputAsJob <- function(x) {
-  runMplusInput(x, as.job=T)
 }
