@@ -1,7 +1,7 @@
 Package: mplus.rstudio
 Type: Package
 Title: Mplus runs within Rstudio (addin)
-Version: 0.2.2
+Version: 0.2.3
 Author: maksim rudnev
 Maintainer: maksim rudnev <maksimrudnev@gmail.com>
 Description: Just install, open Mplus input, and click 'Run in Mplus' under the ADDINS button in Rstudio. If not working, try setting up a path to the mplus executable file, or a command that refers to it.
