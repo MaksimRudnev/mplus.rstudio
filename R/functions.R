@@ -4,16 +4,24 @@
 
 runMplusInput <- function(x, as.job=F) {
 
+  # preparation and checks
   rstudioapi::documentSave()
-  st <- Sys.time()
+
   path = rstudioapi::getActiveDocumentContext()
+
+  if(path$id=="#console")
+    stop("Please put cursor to the Mplus document you want to run and start again.")
+
   inp.file <- sub("^.*/", "", path$path)
   folder <- substring(path$path, 1, attr(regexec("^.*/", path$path)[[1]],"match.length"))
   if(!grepl("\\.inp", substring(inp.file, regexec("\\..*$", inp.file)[[1]][1]), ignore.case = T) ) {
-    rstudioapi::showDialog("Warning", "The file isn't .inp, I will try to run it anyways, but make sure it's an input Mplus file!")
+    rstudioapi::showDialog("Warning",
+                           "The file is not .inp.
+                           I will try to run it anyways,
+                           but make sure it's an input Mplus file!")
     }
 
-
+   # search for Mplus path
     mplus.path = if(is.null(options("mplus.path")[[1]])) {
                       if(is.null(rstudioapi::getPersistentValue("mplus.path"))) {
                         "mplus"
@@ -24,43 +32,86 @@ runMplusInput <- function(x, as.job=F) {
                     options("mplus.path")[[1]]
                   }
 
+    if(is.null(mplus.path)) {
+      #rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path using setMplusPath and run again.")
+      mplus.path = setMplusPath()
+      stop("Couldn't locate Mplus program! Set the path using setMplusPath and run again.")
+    } else if(mplus.path=="") {
+      rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path.")
+      mplus.path = setMplusPath()
 
-    oldwd<-getwd()
+    }
+
+
+    oldwd <- getwd()
     setwd(folder)
+    st <- Sys.time()
+    output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
 
+# AS JOB
     if(as.job) {
+
       temp.file <- tempfile(fileext = ".R")
-      cat('bash.response <<- system("',
-           mplus.path, " '", inp.file, "' \")\n\n",
-          'if(bash.response==127) {',
-          'rstudioapi::showDialog("Warning", "Could not locate mplus program! Set the path using setMplusPath")',
-          '} else {
-          rstudioapi::navigateToFile("', paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out")), '")
-          }',
+
+      cat('
+          st <- Sys.time()
+          bash.response <<- system("', mplus.path, " '", inp.file, "'\")\n",
+          'if(bash.response==127) { \n',
+          '   rstudioapi::showDialog("Warning",
+                  "The error has occurred, most likely could not find Mplus program")
+          } else {
+
+     output.file.path = "', output.file.path, '"\n',
+
+     'if(file.exists(output.file.path) ) {
+
+        if(file.mtime(output.file.path) < st) {
+          warning("The output file is older than the input.")
+        }
+
+      rstudioapi::navigateToFile(output.file.path)
+
+
+      } else {
+        warning("Something went wrong, the output file was not created.")
+      }
+
+    }
+
+    ',
+
           sep="",
           file=temp.file)
 
+
+      #cat(readLines(con = temp.file), sep="\n")
+
       rstudioapi::jobRunScript(temp.file,
-                               name = paste("Running",inp.file),
+                               name = paste("Running", inp.file),
                                workingDir = getwd())
-      bash.response = 0
+
+
+
+      #bash.response = 0
     } else {
 
       bash.response = system(paste0(mplus.path, ' "', inp.file, '"'))
-    #end.t <- Sys.time()
-}
+
+
+
+
     if(bash.response==127) {
-      rstudioapi::showDialog("Warning", "Couldn't locate mplus program! Set the path using setMplusPath and run again.")
+      rstudioapi::showDialog("Warning",
+                             "The error occurred, most likely couldn't find Mplus program")
       setMplusPath()
-      #runMplusInput()
 
     } else {
 
-      output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
+      #output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
       if(file.exists(output.file.path) ) {
         rstudioapi::navigateToFile(output.file.path)
 
-        if( file.mtime(output.file.path) < st & !as.job ) {
+        if( file.mtime(output.file.path) < st ) {
           warning("Something went wrong, the output file is older than the input.")
         }
       } else {
@@ -68,6 +119,7 @@ runMplusInput <- function(x, as.job=F) {
       }
 
     }
+  }
 
     setwd(oldwd)
 }
@@ -87,10 +139,11 @@ runMplusInputAsJob <- function(x) {
 #'
 #' @export
 setMplusPath <- function(path) {
-  path <- rstudioapi::showPrompt("Add a path", "Set path to Mplus executable command/file, for example, C://Program files/mplus.exe")
+  path <- rstudioapi::showPrompt("Add a path", "Set path to Mplus executable command/file, for example, /Applications/Mplus/mplus")
 
   options("mplus.path" = path)
   rstudioapi::setPersistentValue("mplus.path", path)
+  return(path)
 
 }
 
