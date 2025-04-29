@@ -46,7 +46,7 @@ runMplusInput <- function(x, as.job=F) {
     oldwd <- getwd()
     setwd(folder)
     st <- Sys.time()
-    output.file.path <- paste0(folder, paste0(sub("\\..*$", "", inp.file), ".out"))
+    output.file.path <- paste0(folder, paste0(sub("\\.inp$", "", inp.file), ".out"))
 
 # AS JOB
     if(as.job) {
