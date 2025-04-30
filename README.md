@@ -20,6 +20,6 @@ After installation you will find four commands in your RStudio Addins button und
 
 > **NB!** Add it to shortcuts and make running Mplus even more handy: Go to *Tools -\> Modify Keyboard Shortcuts*, find in there "Run in Mplus" or "Run in Mplus as Job" and assign a custom shortcut (for example, I use Control+R on my Mac).
 
--   **Set Mplus path** Tell RStudio where to find Mplus executable file. The defualt is just "mplus" and in most cases it works. If it doesn't, use this command to set it, and it will be stored within current R project or globally if you work outside any project.
+-   **Set Mplus path** Tell RStudio where to find Mplus executable file. The default is just "mplus" and in most cases it works. If it doesn't, use this command to set it, and it will be stored within current R project or globally if you work outside any project.
 
 -   **Create Mplus input** This command creates a template code for the new analysis, saves a data.frame in Mplus-compatible format, and opens the code in RStudio.
