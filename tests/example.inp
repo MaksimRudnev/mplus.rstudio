@@ -1,0 +1,17 @@
+TITLE: New model;
+DATA:
+	file = 'example.dat';
+VARIABLE:
+	names =
+		speed dist 	cntry;
+	missing = .;
+	usevariables = speed dist;
+	grouping = cntry(1-2);
+
+ANALYSIS:
+	estimator = mlr;
+
+MODEL:
+  speed ON dist;
+
+OUTPUT:  tech6;

@@ -1,7 +1,7 @@
 Package: mplus.rstudio
 Type: Package
 Title: Run Mplus within Rstudio (addin)
-Version: 0.2.5
+Version: 1.0
 Authors@R: 
     person("Maksim", "Rudnev", , "maksim.rudnev@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2714-3840"))

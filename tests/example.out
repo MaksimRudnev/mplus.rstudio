@@ -1,0 +1,248 @@
+Mplus VERSION 9 (Mac)
+MUTHEN & MUTHEN
+11/15/2025   2:07 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: New model;
+  DATA:
+  	file = 'example.dat';
+  VARIABLE:
+  	names =
+  		speed dist 	cntry;
+  	missing = .;
+  	usevariables = speed dist;
+  	grouping = cntry(1-2);
+
+  ANALYSIS:
+  	estimator = mlr;
+
+  MODEL:
+    speed ON dist;
+
+  OUTPUT:  tech6;
+
+
+
+*** WARNING in OUTPUT command
+  TECH6 option is only available for estimators WLS, WLSM, WLSMV and ULSMV
+  with missing data.  Request for TECH6 is ignored.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+New model;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 2
+Number of observations
+   Group 1                                                      19
+   Group 2                                                      31
+   Total sample size                                            50
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   SPEED
+
+Observed independent variables
+   DIST
+
+Variables with special functions
+
+  Grouping variable     CNTRY
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  example.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+   Group 1
+     Number of missing data patterns             1
+
+   Group 2
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR 1
+
+
+           Covariance Coverage
+              SPEED         DIST
+              ________      ________
+ SPEED          1.000
+ DIST           1.000         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR 2
+
+
+           Covariance Coverage
+              SPEED         DIST
+              ________      ________
+ SPEED          1.000
+ DIST           1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS FOR 1
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SPEED                10.053      -0.903       4.000   10.53%       7.000     10.000     11.000
+              19.000       7.839      -0.227      13.000   21.05%      11.000     12.000
+     DIST                 21.737       0.127       2.000    5.26%      10.000     18.000     22.000
+              19.000     119.562      -0.378      46.000    5.26%      24.000     28.000
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS FOR 2
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SPEED                18.677       0.324      14.000   12.90%      15.000     17.000     18.000
+              31.000      11.122      -0.944      25.000    3.23%      19.000     22.000
+     DIST                 56.000       0.694      20.000    3.23%      32.000     46.000     54.000
+              31.000     530.258       0.100     120.000    3.23%      56.000     76.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                        -113.073
+          H0 Scaling Correction Factor      0.8875
+            for MLR
+          H1 Value                        -113.073
+          H1 Scaling Correction Factor      0.8875
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                     238.145
+          Bayesian (BIC)                   249.617
+          Sample-Size Adjusted BIC         230.784
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000*
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0000
+            for MLR
+
+Chi-Square Contribution From Each Group
+
+          1                                  0.000
+          2                                  0.000
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                             30.942
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group 1
+
+ SPEED    ON
+    DIST               0.186      0.039      4.788      0.000
+
+ Intercepts
+    SPEED              6.003      1.078      5.567      0.000
+
+ Residual Variances
+    SPEED              3.688      0.950      3.883      0.000
+
+Group 2
+
+ SPEED    ON
+    DIST               0.090      0.018      5.139      0.000
+
+ Intercepts
+    SPEED             13.625      0.892     15.271      0.000
+
+ Residual Variances
+    SPEED              6.806      1.744      3.903      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.141E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  14:07:29
+        Ending Time:  14:07:29
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2025 Muthen & Muthen

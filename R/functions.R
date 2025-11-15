@@ -227,3 +227,90 @@ createMplusInput <- function() {
   writeLines(mplusSKELETON, paste0(filename, ".inp"))
   rstudioapi::navigateToFile(paste0(filename, ".inp"))
 }
+
+
+#' Show Mplus manual in RStudio viewer
+#
+# showMplusManual <- function(local = "") {
+#   if(local!="") {
+#     if(!file.exists(local)) stop("File doesn't exist!")
+#     if(!grepl("\\.pdf$", local, ignore.case = T)) stop("File is not a pdf!")
+#     pdf_file <- local #normalizePath(local)
+#   } else {
+#     # online version
+#     download.file("https://www.statmodel.com/download/UsersGuide.pdf",
+#                   destfile = file.path(tempdir(), "MplusUserGuide.pdf"),
+#                   mode = "wb")
+#     pdf_file = file.path(tempdir(), "MplusUserGuide.pdf")
+#   }
+#   # pdf_file <- normalizePath("/Users/maksimrudnev/Library/Mobile Documents/com~apple~CloudDocs/литература/methodology/SEM/MplusUserGuideVer_8.pdf")
+#   html_file <- tempfile(fileext = ".html")
+#
+#   # Write a simple HTML page with an iframe
+#   writeLines(c(
+#     '<html>',
+#     '<head>',
+#     '  <meta charset="UTF-8">',
+#     '</head>',
+#     '<body>
+#     <td valign="TOP" colspan="2" width="660">
+#
+# <p class="gheader">Mplus HTML User\'s Guide</p>
+#
+#       <a name="top">
+#
+#       </a><ol><a name="top">
+#       </a><li><a name="top"></a><a href="/HTML_UG/introV8.htm">Table of Contents</a>
+#       </li><li><a href="/HTML_UG/chapter1V8.htm">Chapter 1</a>: Introduction
+#     </li><li><a href="/HTML_UG/chapter2V8.htm">Chapter 2</a>: Getting started with Mplus
+#     </li><li><a href="/HTML_UG/chapter3V8.htm">Chapter 3</a>: Regression and path analysis
+#     </li><li><a href="/HTML_UG/chapter4V8.htm">Chapter 4</a>: Exploratory factor analysis
+#     </li><li><a href="/HTML_UG/chapter5V8.htm">Chapter 5</a>: Confirmatory factor analysis and structural equation modeling
+#     </li><li><a href="/HTML_UG/chapter6V8.htm">Chapter 6</a>: Growth modeling and survival analysis
+#     </li><li><a href="/HTML_UG/chapter7V8.htm">Chapter 7</a>: Mixture modeling with cross-sectional data
+#     </li><li><a href="/HTML_UG/chapter8V8.htm">Chapter 8</a>: Mixture modeling with longitudinal data
+#     </li><li><a href="/HTML_UG/chapter9V8.htm">Chapter 9</a>: Multilevel modeling with complex survey data
+#     </li><li><a href="/HTML_UG/chapter10V8.htm">Chapter 10</a>: Multilevel mixture modeling
+#     </li><li><a href="/HTML_UG/chapter11V8.htm">Chapter 11</a>: Missing data modeling and Bayesian analysis
+#     </li><li><a href="/HTML_UG/chapter12V8.htm">Chapter 12</a>: Monte Carlo simulation studies
+#     </li><li><a href="/HTML_UG/chapter13V8.htm">Chapter 13</a>: Special features
+#     </li><li><a href="/HTML_UG/chapter14V8.htm">Chapter 14</a>: Special modeling issues
+#     </li><li><a href="/HTML_UG/chapter15V8.htm">Chapter 15</a>: TITLE, DATA, VARIABLE, and DEFINE commands
+#     </li><li><a href="/HTML_UG/chapter16V8.htm">Chapter 16</a>: ANALYSIS command
+#     </li><li><a href="/HTML_UG/chapter17V8.htm">Chapter 17</a>: MODEL command
+#     </li><li><a href="/HTML_UG/chapter18V8.htm">Chapter 18</a>: OUTPUT, SAVEDATA, and PLOT commands
+#     </li><li><a href="/HTML_UG/chapter19V8.htm">Chapter 19</a>: MONTECARLO command
+#     </li><li><a href="/HTML_UG/chapter20V8.htm">Chapter 20</a>: A summary of the Mplus language
+#     </li><li><a href="/HTML_UG/indexv8.htm">Index</a>
+#       </li><li><a href="/ugexcerpts.shtml">User\'s Guide Examples</a>
+# </li></ol>
+#
+# There is also a <a href="/download/usersguide/MplusUserGuideVer_8.pdf">PDF version</a> of the User\'s Guide available.
+#     <br><br>
+#       <br><br>
+#       <br><br>
+#       <br><br>
+#       <br><br>
+#       <br><br>
+#       <br><br>
+#       <br><br>
+#       <!-- End of main text body -->
+#       </td>
+#
+#     </body></html>'
+#   ), html_file)
+#
+#
+#
+#   # Show in RStudio Viewer
+#   viewer <- getOption("viewer")
+#   if (!is.null(viewer)) {
+#     viewer(html_file)
+#   } else {
+#     browseURL(html_file)
+#   }
+#
+#   #rstudioapi::viewer("https://www.statmodel.com/download/UsersGuide.pdf")
+# }
+#
+#

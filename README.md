@@ -4,13 +4,15 @@ Addin for Rstudio allowing to run Mplus code within RStudio (Mplus license and i
 
 ## Installation
 
-Run
+Run once
 
 ```         
 devtools::install_github("maksimrudnev/mplus.rstudio")
 ```
 
-After installation you will find four commands in your RStudio Addins button under header "MPLUS.RSTUDIO" (no need to load the library).
+After the installation is done, you will find four commands in your RStudio Addins menu under header "MPLUS.RSTUDIO" (no need to load the library).
+
+![](man/figures/screenshot1.png)
 
 ## Usage
 
