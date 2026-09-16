@@ -18,4 +18,14 @@ Description: Create input template and save data for Mplus
 Binding: createMplusInput
 Interactive: true
 
+Name: Submit Mplus to Server
+Description: Configures and submits the active Mplus input to the cluster.
+Binding: submit_mplus_server
+Interactive: true
+
+Name: Setup Server
+Description: Setup server defaults. Currently does not support passphrase.
+Binding: setup_mplus_server
+Interactive: true
+
 

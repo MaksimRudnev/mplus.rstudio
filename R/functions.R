@@ -152,7 +152,7 @@ setMplusPath <- function(path) {
 #' @param data Data frame to extract variable names
 #' @param datafile Name of the datafile to save
 #'
-#' @example \dontrun{cat(mplus_skeleton(cars), file = "mplus1.inp")}
+#@example # cat(mplus_skeleton(cars), file = "mplus1.inp")
 #' @export
 mplus_skeleton <- function(data, datafile = 'mplus_temp.tab') {
 
